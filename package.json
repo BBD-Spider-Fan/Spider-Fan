@@ -1,0 +1,15 @@
+{
+  "name": "test-node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node --env-file=.env ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.16.1",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "morgan": "~1.9.1"
+  }
+}
