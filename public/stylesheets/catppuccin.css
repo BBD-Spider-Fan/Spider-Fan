@@ -1,14 +1,4 @@
 :root {
-    --ctp-text: #4c4f69;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --ctp-text: #cdd6f4;
-    }
-}
-
-:root {
     --ctp-rosewater: #dc8a78;
     --ctp-flamingo: #dd7878;
     --ctp-pink: #ea76cb;
