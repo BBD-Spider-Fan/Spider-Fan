@@ -5,7 +5,7 @@ const router = express.Router();
 
 /* GET the domain crawled data. */
 router.get('/', async (req, res) => {
-    let domainId = req.body.domain_id;
+    let domainId = req.query.domain_id;
     if (!domainId) {
         return res.status(400).json({error: 'Domain id is required.'});
     }

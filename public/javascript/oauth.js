@@ -1,9 +1,9 @@
 const readJson = async (filepath) => {
     try {
-        const response = await fetch("client_secret.json")
+        const response = await fetch('client_secret.json')
 
         if (!response.ok) {
-            throw new Error("Failed to fetch data");
+            throw new Error('Failed to fetch data');
         }
 
         const jsonData = await response.json();
@@ -13,31 +13,31 @@ const readJson = async (filepath) => {
 
         return {clientID, redirectURI}
     } catch (error) {
-        console.log("Error fetching data:", error)
+        console.log('Error fetching data:', error)
     }
 }
 
 const login = () => {
-    let oauthEndpoint = "https://accounts.google.com/o/oauth2/v2/auth"
+    let oauthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
 
     let form = document.createElement('form')
     form.setAttribute('method', 'GET')
     form.setAttribute('action', oauthEndpoint)
 
-    // const {clientID, redirectURI} = readJson("client_secret.json")
+    // const {clientID, redirectURI} = readJson('client_secret.json')
 
     const nonce = generateNonce();
     console.log(nonce)
 
     let params = {
-        "client_id": "319171730755-9am4h7er5lonnf9gg1idi0sfk4p8opkd.apps.googleusercontent.com",
-        "redirect_uri": "http://localhost:3000/authorized.html",
-        "response_type": "token id_token",
-        "scope": "profile email",
-        "state": "pass-through-values",
-        "nonce": nonce
+        'client_id': '319171730755-9am4h7er5lonnf9gg1idi0sfk4p8opkd.apps.googleusercontent.com',
+        'redirect_uri': 'http://localhost:3000/authorized.html',
+        'response_type': 'token id_token',
+        'scope': 'profile email',
+        'state': 'pass-through-values',
+        'nonce': nonce
     }
-    //"include_granted_scopes": "true",
+    //'include_granted_scopes': 'true',
 
     for (var p in params) {
         let input = document.createElement('input')
@@ -54,26 +54,25 @@ const login = () => {
 }
 
 const logout = () => {
-    const accessToken = localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem('accessToken')
 
     if (!accessToken) {
-        console.log("Access token not found in local storage.");
+        console.log('Access token not found in local storage.');
         return;
     }
 
-    fetch("https://oauth2.googleapis.com/revoke?token=" + accessToken, {
-        method: 'POST',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded"
+    fetch('https://oauth2.googleapis.com/revoke?token=' + accessToken, {
+        method: 'POST', headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
         }
     })
         .then((data) => {
-            localStorage.removeItem("idToken")
-            localStorage.removeItem("accessToken")
-            location.href = "http://localhost:3000/login.html"
+            localStorage.removeItem('idToken')
+            localStorage.removeItem('accessToken')
+            location.href = 'http://localhost:3000/login.html'
         })
         .catch((error) => {
-            console.log("Error revoking token:", error)
+            console.log('Error revoking token:', error)
         })
 }
 
@@ -85,18 +84,53 @@ const getJWT = () => {
     if (location.hash) {
         const hashParams = new URLSearchParams(location.hash.substring(1)); // Remove the '#' and parse hash fragment
         const idToken = hashParams.get('id_token');
-        console.log("User ID token:", idToken);
+        console.log('User ID token:', idToken);
 
         const accessToken = hashParams.get('access_token');
-        console.log("Access token:", accessToken);
+        console.log('Access token:', accessToken);
 
         localStorage.setItem('idToken', idToken)
         localStorage.setItem('accessToken', accessToken)
 
-        // window.history.pushState({}, document.title, "/" + "index.html")
+        // window.history.pushState({}, document.title, '/' + 'index.html')
 
     } else {
-        console.log("No hash fragment found in location.hash");
+        console.log('No hash fragment found in location.hash');
     }
 }
 
+document.getElementById('auth_button').addEventListener('click', login)
+
+let token = localStorage.getItem('idToken');
+
+const create_button = (name, listener) => {
+    let button = document.createElement('button');
+    button.textContent = name;
+    button.className = 'button button-wrap';
+    button.addEventListener('click', listener)
+    return button;
+};
+
+const fetch_data = (endpoint, call) => {
+    fetch(`/api/${endpoint}`, {headers: {'Authorization': `Bearer ${token}`}})
+        .then(data => data.json())
+        .then(json_data => call(json_data))
+        .catch(err => {
+            //TODO: nice error display to usr
+            console.log(err)
+        });
+};
+let bb = document.getElementById('button_box');
+
+bb.appendChild(create_button("mode swap", () => {
+    const classList = document.getElementById("html").classList;
+    classList.toggle("dark");
+    classList.toggle("light");
+}))
+
+if (token !== null) {
+    let crawl_data_button = create_button("crawl data", () => fetch_data("crawledData?domain_id=1", data => console.log(data)));
+    let domain_button = create_button("domains", () => fetch_data("domain", data => console.log(data)));
+    bb.appendChild(crawl_data_button)
+    bb.appendChild(domain_button)
+}
