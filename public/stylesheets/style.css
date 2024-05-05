@@ -1,9 +1,29 @@
+:root {
+    --button-radius: 0.25rem;
+    --button-padding: 2rem;
+    --button-height: 12rem;
+
+}
+
 body {
     padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
     background-color: var(--ctp-base);
 }
 
 .heading-test {
     color: var(--ctp-text);
+}
+
+.button {
+    cursor: pointer;
+}
+
+.button-wrap {
+    background-color: var(--ctp-text);
+    color: var(--ctp-base);
+    border-radius: var(--button-radius);
+    min-height: var(--button-height);;
+    padding-left: var(--button-padding);
+    padding-right: var(--button-padding);
 }
