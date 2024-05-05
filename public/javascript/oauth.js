@@ -111,15 +111,26 @@ const create_button = (name, listener) => {
     return button;
 };
 
-const fetch_data = (endpoint, call) => {
-    fetch(`/api/${endpoint}`, {headers: {'Authorization': `Bearer ${token}`}})
+const makeRequest = (endpoint, successCallback, data = null, method = "GET") => {
+    let url = `/api/${endpoint}`;
+    const fetchOptions = {
+        method, headers: {
+            'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'
+        }, body: method !== "GET" ? JSON.stringify(data) : null
+    };
+    if (method === "GET" && data) {
+        const queryParams = new URLSearchParams(data).toString();
+        url += '?' + queryParams;
+    }
+    fetch(url, fetchOptions)
         .then(data => data.json())
-        .then(json_data => call(json_data))
+        .then(json_data => successCallback(json_data))
         .catch(err => {
             //TODO: nice error display to usr
             console.log(err)
         });
 };
+
 let bb = document.getElementById('button_box');
 
 bb.appendChild(create_button("mode swap", () => {
@@ -129,8 +140,21 @@ bb.appendChild(create_button("mode swap", () => {
 }))
 
 if (token !== null) {
-    let crawl_data_button = create_button("crawl data", () => fetch_data("crawledData?domain_id=1", data => console.log(data)));
-    let domain_button = create_button("domains", () => fetch_data("domain", data => console.log(data)));
+    let crawl_data_button = create_button("crawl data", () => makeRequest("crawledData", data => console.log(data), {domain_id: 1}));
+    let domain_button = create_button("domains", () => makeRequest("domain", data => console.log(data)));
+    let crawl_add_button = create_button("crawl", () => makeRequest("crawledData/crawl", data => console.log(data), {
+        domain_id: 1
+    }, "POST"));
+    let crawl_see_button = create_button("crawl see", () => makeRequest("crawledData/xml", data => console.log(data), {
+        domain_id: 1
+    }, "POST"));
+    let add_domain_button = create_button("add domain", () => makeRequest("domain/add", data => console.log(data), {domain_url: "www.google.com"},"POST"));
+
+
     bb.appendChild(crawl_data_button)
     bb.appendChild(domain_button)
+    bb.appendChild(crawl_add_button)
+    bb.appendChild(crawl_see_button)
+    bb.appendChild(add_domain_button)
+
 }
