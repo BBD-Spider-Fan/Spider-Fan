@@ -4,6 +4,6 @@ function runClick() {
     element.classList.toggle("light");
 }
 
-document.getElementById("test_btn").addEventListener("click", runClick)
+// document.getElementById("test_btn").addEventListener("click", runClick)
 
 

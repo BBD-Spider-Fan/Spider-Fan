@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require("../db");
 const router = express.Router();
 
-/* GET the users projects. */
+/* GET the users domains. */
 router.get('/', async (req, res, next) => {
     console.log(req.user_data);
     console.log(req.user_data)
@@ -11,39 +11,37 @@ router.get('/', async (req, res, next) => {
         const result = await pool.query(`SELECT domain.*
 FROM domain
          JOIN spider_user ON domain.user_id = spider_user.user_id
-WHERE spider_user.user_id = $1;`,
-            [userId]);
+WHERE spider_user.user_id = $1;`, [userId]);
         res.json(result.rows);
     } catch (err) {
         console.error('Error executing query', err);
-        res.status(500).json({error: 'Internal Server Error unable to get users projects'});
+        res.status(500).json({error: 'Internal Server Error unable to get users domains'});
     }
 });
 
-/* POST new project for user. */
+/* POST new domain for user. */
 router.post('/add', async (req, res, next) => {
     try {
-        const {domain_url} = req.body;
+        const {domain_url: domainUrl} = req.body;
 
-        if (!project_name || !description) {
-            return res.status(400).json({error: 'Project name and description are required.'});
+        if (!domainUrl) {
+            return res.status(400).json({error: 'Domain name is required.'});
         }
 
-        const user_id = req.user.id;
-
-        // Insert the new project into the projects table
+        let userId = req.user_data.user_id;
+        // Insert the new domain into the domains table
         const insertQuery = `
-            INSERT INTO projects (user_id, project_name, description)
-            VALUES ($1, $2, $3)
-            RETURNING *;
+            INSERT INTO domain (user_id, url, timelastupdated)
+            VALUES ($1, $2, now())
+            RETURNING domain_id
         `;
-        const values = [user_id, project_name, description];
+        const values = [userId, domainUrl];
         const result = await pool.query(insertQuery, values);
 
-        res.status(201).json(result.rows[0]); // Return the newly inserted project
+        res.status(201).json(result.rows[0]); // Return the newly inserted domain
     } catch (err) {
         console.error('Error executing query', err);
-        res.status(500).json({error: 'Internal Server Error unable to add project'});
+        res.status(500).json({error: 'Internal Server Error unable to add domain'});
     }
 });
 
