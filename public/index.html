@@ -9,21 +9,18 @@
     <title>Spider Fan</title>
     <link rel="stylesheet" href="stylesheets/catppuccin.css">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="javascript/test.js" defer></script>
-    <script src="javascript/oauth.js" defer></script>
+    <script src="javascript/main.js" defer type="module"></script>
 
 </head>
 <body>
-<!--<script>
-    history.replaceState(null, null, window.location.pathname + "wow");
-</script>-->
-
-<h1 class="heading-test">TEST</h1>
-<a href="#" class="button primary" id="auth_button">
-    <span class="button-wrap">Sign in with Google</span>
-</a>
-<div id="button_box">
-</div>
-
+<header>
+    <img class="logo" src="/assets/images/logo.png" alt="Logo">
+    <h1>SpiderFan</h1>
+    <nav id="nav-comp">
+        <ul id="nav-items"></ul>
+        <button class="logout">Logout</button>
+    </nav>
+</header>
+<main id="content"></main>
 </body>
 </html>

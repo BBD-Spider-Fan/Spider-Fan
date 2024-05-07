@@ -1,7 +1,21 @@
 const https = require('https');
 const pool = require('../db');
 
-const verifyToken = (req, res, next) => {
+function getOrCreateUser(tokenInfo, req, next, res) {
+    const values = [tokenInfo.sub, tokenInfo.email];
+    try {
+        pool.query(`SELECT * FROM upsert_spider_user($1, $2)`, values).then((data) => {
+            req.user_data = data.rows[0];
+            console.log("Successful Verification");
+            next();
+        });
+    } catch (err) {
+        console.error('Error executing query', err);
+        res.status(500).json({message: 'Internal Server Error unable to get user from db'});
+    }
+}
+
+const verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -26,23 +40,8 @@ const verifyToken = (req, res, next) => {
             if (tokenInfo.error) {
                 return res.status(401).json({message: `Unauthorized: ${tokenInfo.error}`});
             }
-            console.log(tokenInfo)
-
             // Make call to db to get user
-            const values = [tokenInfo.sub, tokenInfo.email];
-
-            try {
-                pool.query(`SELECT * FROM upsert_spider_user($1, $2)`, values).then((data) => {
-                    req.user_data = data.rows[0];
-                    console.log("Successful Verification");
-                    next();
-                });
-            } catch (err) {
-                console.error('Error executing query', err);
-                res.status(500).json({error: 'Internal Server Error unable to get user from db'});
-            }
-
-
+            getOrCreateUser(tokenInfo, req, next, res);
         });
     });
 

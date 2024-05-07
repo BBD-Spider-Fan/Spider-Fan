@@ -39,7 +39,7 @@ const login = () => {
     }
     //'include_granted_scopes': 'true',
 
-    for (var p in params) {
+    for (const p in params) {
         let input = document.createElement('input')
         input.setAttribute('type', 'hidden')
         input.setAttribute('name', p)
@@ -52,6 +52,7 @@ const login = () => {
     form.submit()
 
 }
+
 
 const logout = () => {
     const accessToken = localStorage.getItem('accessToken')
@@ -148,7 +149,7 @@ if (token !== null) {
     let crawl_see_button = create_button("crawl see", () => makeRequest("crawledData/xml", data => console.log(data), {
         domain_id: 1
     }, "POST"));
-    let add_domain_button = create_button("add domain", () => makeRequest("domain/add", data => console.log(data), {domain_url: "www.google.com"},"POST"));
+    let add_domain_button = create_button("add domain", () => makeRequest("domain/add", data => console.log(data), {domain_url: "www.google.com"}, "POST"));
 
 
     bb.appendChild(crawl_data_button)

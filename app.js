@@ -6,9 +6,9 @@ const path = require('path');
 const usersRouter = require('./routes/users');
 const domainRouter = require('./routes/domain');
 const crawledDataRouter = require('./routes/crawled_data');
+const authRouter = require('./routes/auth');
 
-const jwtMiddleware = require('./middleware/jwt_middleware');
-const oMiddleware = require('./middleware/oauthMiddleware');
+const authMiddleware = require('./middleware/oauthMiddleware');
 
 const app = express();
 
@@ -23,17 +23,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(express.json());
 
-// Url encoding not 100% sure that we will need this as we have control over asset names as well as sending json.
 app.use(express.urlencoded({extended: false}));
 
 // Serve our static assets
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app().use("/api/auth", authRouter)
+app.use("/api/auth", authRouter)
 
 // Register our routes on new router to apply the middleware
 const apiRouter = express.Router();
-apiRouter.use(oMiddleware);
+apiRouter.use(authMiddleware);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/domain', domainRouter);
 apiRouter.use('/crawledData', crawledDataRouter);
