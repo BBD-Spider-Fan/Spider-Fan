@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="./styles/reset.css">
+  <link rel="stylesheet" href="./styles/variables.css">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/header.css">
+  <link rel="stylesheet" href="./styles/footer.css">
+  <link rel="stylesheet" href="./styles/report.css">
+
+  <title>Home</title>
+</head>
+
+<body>
+  <header>
+    <a href="/"><img src="/assets/images/logo.png" alt="logo"></a>
+    <nav>
+      <a href="/report">Report</a>
+      <a href="#">History</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+
+      <form>
+        <button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <input id="search" type="text" name="search" placeholder="Search">
+        <button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+        </button>
+      </form>
+
+      <ul id="links">
+        <!-- <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li>
+        <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li>
+        <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li>
+        <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li>
+        <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li>
+        <li>
+          <h3>Link to <a href="#">boot.dev</a></h3>
+        </li> -->
+      </ul>
+    </section>
+    <dialog>
+      <h3>Link to <a href="#">boot.dev</a></h3>
+      <form>
+        <label for="frequency">Frequency</label>
+        <input type="text" >
+      </form>
+      <section>
+        <button>Cancel</button>
+        <button>Save</button>
+      </section>
+    </dialog>
+  </main>
+  <footer>
+    Copyright &copy; 2024 Spiderfan. All rights reserved.
+  </footer>
+</body>
+
+<script type="module" src="./scripts/crawler.js"></script>
+<script type="module" src="./scripts/sitemap.js"></script>
+<script type="module" src="./scripts/report.js"></script>
+
+</html>
