@@ -6,7 +6,8 @@
     "start": "node --env-file=.env ./bin/www"
   },
   "dependencies": {
-    "express": "~4.16.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "pg": "^8.11.5"
   },
   "devDependencies": {

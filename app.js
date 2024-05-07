@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 
 
@@ -11,6 +12,8 @@ const jwtMiddleware = require('./middleware/jwt_middleware');
 const oMiddleware = require('./middleware/oauthMiddleware');
 
 const app = express();
+
+app.use(cors());
 
 // Creates a logger for us uses a package so will remove later.
 // app.use(logger('dev'));
