@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy_api:
-    runs-on: sp
+    runs-on: self-hosted
     steps:
       - name: run
         run: |
