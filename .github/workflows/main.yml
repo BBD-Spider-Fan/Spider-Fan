@@ -13,8 +13,8 @@ jobs:
         env:
           PORT: ${{secrets.PORT}}
         run: |
-          pkill -f node
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
           . ~/.nvm/nvm.sh
+          pkill -f node
           npm install
           sudo -E $(which node) ./bin/www
