@@ -3,7 +3,6 @@ const path = require('path');
 
 
 // Create routes
-const usersRouter = require('./routes/users');
 const domainRouter = require('./routes/domain');
 const crawledDataRouter = require('./routes/crawled_data');
 const authRouter = require('./routes/auth');
@@ -33,7 +32,6 @@ app.use("/api/auth", authRouter)
 // Register our routes on new router to apply the middleware
 const apiRouter = express.Router();
 apiRouter.use(authMiddleware);
-apiRouter.use('/users', usersRouter);
 apiRouter.use('/domain', domainRouter);
 apiRouter.use('/crawledData', crawledDataRouter);
 app.use('/api', apiRouter);

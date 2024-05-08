@@ -1,33 +1,20 @@
 const express = require('express');
-const pool = require("../db");
+const pool = require("../utils/db");
+const fetchData = require("../utils/utils");
+const {getOrCreateUser} = require("../utils/db");
 const router = express.Router();
 
 router.get('/', async function (req, res) {
+    // Not setting status in the resp to avoid error on front end.
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({message: 'Unauthorized: No ID Token found'});
+        return res.json({error: 'Unauthorized: No ID Token found'});
     }
     const token = authHeader.split('Bearer ')[1];
-
-    let dataResponse = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`)
-        .then(token => token.json())
+    fetchData(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`)
         .then(getOrCreateUser)
-        .catch(err => res.status(401).json({message: `Unauthorized: ${err}`}));
-    console.log(dataResponse);
-
-    res.json(dataResponse);
+        .then(dataResponse => res.json(dataResponse))
+        .catch(error => res.json({error: `Unauthorized: ${error}`}));
 });
-
-
-async function getOrCreateUser(tokenInfo) {
-    console.log(tokenInfo)
-    const values = [tokenInfo.sub, tokenInfo.email];
-    try {
-        let data = await pool.query(`SELECT * FROM upsert_spider_user($1, $2)`, values)
-        return data.rows[0];
-    } catch (err) {
-        return {message: 'Internal Server Error unable to get user from db'};
-    }
-}
 
 module.exports = router;

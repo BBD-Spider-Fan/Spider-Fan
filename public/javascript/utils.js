@@ -1,6 +1,6 @@
-export const makeRequest = async (endpoint, data = null, method = "GET") => {
+export const makeRequestRaw = async (endpoint, data = null, method = "GET") => {
     let url = `/api/${endpoint}`;
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("idToken");
 
     const fetchOptions = {
         method, headers: {
@@ -11,12 +11,9 @@ export const makeRequest = async (endpoint, data = null, method = "GET") => {
         const queryParams = new URLSearchParams(data).toString();
         url += '?' + queryParams;
     }
-    try {
-        const response = fetch(url, fetchOptions).then(d => d.json());
-        return await response;
-    } catch (err) {
-        // TODO: nice error display to user
-        console.log(err);
-    }
-
+    return await fetch(url, fetchOptions);
 };
+
+export const makeRequest = async (endpoint, data = null, method = "GET") => {
+    return makeRequestRaw(endpoint, data, method).then(d => d.json())
+}

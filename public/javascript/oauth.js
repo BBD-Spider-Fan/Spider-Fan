@@ -31,7 +31,7 @@ const login = () => {
 
     let params = {
         'client_id': '319171730755-9am4h7er5lonnf9gg1idi0sfk4p8opkd.apps.googleusercontent.com',
-        'redirect_uri': 'http://localhost:3000/authorized.html',
+        'redirect_uri': 'http://localhost:3000',
         'response_type': 'token id_token',
         'scope': 'profile email',
         'state': 'pass-through-values',
@@ -55,7 +55,7 @@ const login = () => {
 
 
 const logout = () => {
-    const accessToken = localStorage.getItem('accessToken')
+    const accessToken = localStorage.getItem('idToken')
 
     if (!accessToken) {
         console.log('Access token not found in local storage.');
@@ -112,6 +112,7 @@ const create_button = (name, listener) => {
     return button;
 };
 
+/*
 const makeRequest = (endpoint, successCallback, data = null, method = "GET") => {
     let url = `/api/${endpoint}`;
     const fetchOptions = {
@@ -131,6 +132,7 @@ const makeRequest = (endpoint, successCallback, data = null, method = "GET") => 
             console.log(err)
         });
 };
+*/
 
 let bb = document.getElementById('button_box');
 

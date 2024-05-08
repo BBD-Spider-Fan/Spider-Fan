@@ -2,7 +2,7 @@ export const loginUrl = () => {
     const oauthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
     const params = new URLSearchParams({
         client_id: '319171730755-9am4h7er5lonnf9gg1idi0sfk4p8opkd.apps.googleusercontent.com',
-        redirect_uri: 'http://localhost:3000/authorized.html',
+        redirect_uri: 'http://localhost:3000',
         response_type: 'token id_token',
         scope: 'profile email',
         state: 'pass-through-values',

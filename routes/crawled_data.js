@@ -1,6 +1,7 @@
 const express = require('express');
-const pool = require("../db");
-const crawl = require("../crawl");
+const pool = require("../utils/db");
+const crawl = require("../utils/crawl");
+const {getDomainById} = require("../utils/db");
 const router = express.Router();
 
 /* GET the domain crawled data. */
@@ -9,15 +10,9 @@ router.get('/', async (req, res) => {
     if (!domainId) {
         return res.status(400).json({error: 'Domain id is required.'});
     }
-
+    let userId = req.user_data.user_id;
     try {
-        const result = await pool.query(`
-                    SELECT crawled_data.url, crawled_data.count
-                    FROM crawled_data
-                             JOIN domain ON domain.domain_id = crawled_data.domain_id
-                    WHERE crawled_data.domain_id = $1;
-            `, [domainId]);
-        res.json(result.rows);
+        res.json(await getDomainById(userId, domainId));
     } catch (err) {
         console.error('Error executing query', err);
         res.status(500).json({error: 'Internal Server Error unable to get domain crawl data'});
@@ -35,8 +30,7 @@ router.post('/crawl', async (req, res) => {
                       SELECT url
                       FROM domain
                       WHERE domain_id = $1;
-              `,
-            [domainId]);
+              `, [domainId]);
 
 
         let baseURL = result.rows[0].url;
