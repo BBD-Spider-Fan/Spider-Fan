@@ -1,3 +1,23 @@
+const makeRequest = (token, endpoint, successCallback, data = null, method = "GET") => {
+    let url = `http://localhost:3000/api/${endpoint}`;
+    const fetchOptions = {
+        method, headers: {
+            'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'
+        }, body: method !== "GET" ? JSON.stringify(data) : null
+    };
+    if (method === "GET" && data) {
+        const queryParams = new URLSearchParams(data).toString();
+        url += '?' + queryParams;
+    }
+    fetch(url, fetchOptions)
+        .then(data => data.json())
+        .then(json_data => successCallback(json_data))
+        .catch(err => {
+            //TODO: nice error display to usr
+            console.log(err)
+        });
+};
+
 const getDomains = () => {
     const idToken = localStorage.getItem('idToken')
 
@@ -9,19 +29,7 @@ const getDomains = () => {
         console.log(idToken)
     }
 
-    fetch("http://localhost:3000/api/domain/", {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${idToken}`
-        }
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok")
-        }
-        return response.json()
-    }).then(data => {
-        console.log("Data: ", data)
-
+    makeRequest(idToken, "domain", data => {
         const container = document.getElementById("domain-container")
 
         container.innerHTML = '';
@@ -48,48 +56,42 @@ const getDomains = () => {
                 const mainContainer = document.getElementById("main-container")
                 console.log(`Clicked on ${object.domain_id}`)
 
-                fetch("http://localhost:3000/api/domain/", {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${idToken}`
-                    }
-                }).then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok")
-                    }
-                    return response.json()
-                }).then(data => {
-                    console.log("Data: ", data)
-                }).catch(error => {
-                    console.error("There was a problem with the fetch operation:", error)
-                })
-
                 const existingPopup = document.querySelector(".popup")
                 if (existingPopup) {
                     existingPopup.remove()
                 }
 
-                const popup = document.createElement("div")
-                popup.classList.add("popup")
+                makeRequest(idToken, "crawledData", data => {
+                    console.log(data)
 
-                const popupContent = document.createElement("p")
-                popupContent.textContent = `Domain ID: ${object.domain_id}`
+                    const popup = document.createElement("div")
+                    popup.classList.add("popup")
 
-                const closeButton = document.createElement("button")
-                closeButton.classList.add("close-button");
-                closeButton.textContent = "Close"
-                closeButton.addEventListener("click", () => {
-                    popup.remove()
-                })
+                    const closeButton = document.createElement("button")
+                    closeButton.classList.add("close-button");
+                    closeButton.textContent = "Close"
+                    closeButton.addEventListener("click", () => {
+                        popup.remove()
+                    })
 
-                popup.appendChild(closeButton)
-                popup.appendChild(popupContent)
-                document.body.appendChild(popup)                
+                    popup.appendChild(closeButton)
+
+                    data.forEach(scrapedURL => {
+                        const scrapedURLText = document.createElement("p")
+                        scrapedURLText.textContent = `URL: ${scrapedURL.url}`
+
+                        const scrapedURLCount = document.createElement("p")
+                        scrapedURLCount.textContent = `count: ${scrapedURL.count}`
+                        scrapedURLCount.style.marginBottom = "0.5em"
+
+                        popup.appendChild(scrapedURLText)
+                        popup.appendChild(scrapedURLCount)
+                    })
+
+                    document.body.appendChild(popup) 
+                }, {domain_id: object.domain_id})
             })
-
             container.appendChild(card)
-        }) 
-    }).catch(error => {
-        console.error("There was a problem with the fetch operation:", error)
+        })
     })
 }
