@@ -38,7 +38,7 @@ jobs:
           docker push ${{secrets.DOCKER_USERNAME}}/spdr:latest
   deploy:
     needs: build
-    runs-on: ec2-frontend
+    runs-on: self-hosted
     steps:
       - name: Prune unused images
         run: sudo docker system prune --force
