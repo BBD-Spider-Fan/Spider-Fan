@@ -1,7 +1,6 @@
-import {isLoggedIn} from "./auth.js";
 import {mainPage} from "./pages/mainPage.js";
 import {loginPage} from "./pages/loginPage.js";
-import {authUrlRipper} from "./oauth_1.js";
+import {authUrlRipper, isLoggedIn} from "./oauth_1.js";
 
 authUrlRipper();
 
