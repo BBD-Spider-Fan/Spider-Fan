@@ -17,4 +17,4 @@ jobs:
           . ~/.nvm/nvm.sh
           npm install
           sudo pkill -f node
-          sudo -E $(which node) ./bin/www
+          sudo -E nohup $(which node) ./bin/www
