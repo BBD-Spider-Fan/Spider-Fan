@@ -23,7 +23,7 @@ if (isUserLoggedIn) {
     navElement.appendChild(navList);
 
     // TODO: main page
-    contentElement.appendChild(mainPage());
+    mainPage(contentElement);
 } else {
     loginPage(contentElement);
 

@@ -1,6 +1,6 @@
 import {loginUrl} from "../oauth_1.js";
 
-export const loginPage = (content) => {
+export const loginPage = (contentElement) => {
     let mainSection = document.createElement("section");
     let heading1 = document.createElement("h1");
     heading1.textContent = 'Spiderfan';
@@ -13,10 +13,10 @@ export const loginPage = (content) => {
     aTag.text = "Continue with Google";
     aTag.href = loginUrl();
     mainSection.appendChild(aTag)
-    content.appendChild(mainSection)
+    contentElement.appendChild(mainSection)
 
     let image = document.createElement("img");
     // image.src =
-    content.appendChild(image)
+    contentElement.appendChild(image)
     return mainSection;
 };
