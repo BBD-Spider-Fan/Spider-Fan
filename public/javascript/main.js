@@ -13,13 +13,20 @@ let contentElement = document.getElementById("content");
 if (isUserLoggedIn) {
     // Add the items to the nav bar.s
     let navElement = document.getElementById("nav-items");
-    let navList = document.createElement("ul");
-    let navItem = document.createElement("li");
-    navList.appendChild(navItem);
+    let navReport = document.createElement("a");
+    navReport.text = "Report";
+    navReport.addEventListener("click", () => {
+        //TODO: make the page replace.
+    });
+    navElement.appendChild(navReport);
 
-    let navItemLogout = document.createElement("li");
-    navList.appendChild(navItemLogout);
-    navElement.appendChild(navList);
+    let navHistory = document.createElement("a");
+    navHistory.text = "History";
+    navHistory.addEventListener("click", () => {
+        //TODO: make the page replace.
+    });
+    navElement.appendChild(navHistory);
+
 
     // TODO: main page
     mainPage(contentElement);
