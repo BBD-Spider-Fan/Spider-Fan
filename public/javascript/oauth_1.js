@@ -1,3 +1,5 @@
+import {makeRequest} from "./utils.js";
+
 export const loginUrl = () => {
     const oauthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
     const params = new URLSearchParams({
@@ -23,3 +25,8 @@ export const authUrlRipper = () => {
 const generateNonce = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
+
+export const isLoggedIn = async () => {
+    // Make call to ensure that the user is logged in.
+    return await makeRequest("auth").then(d => !("error" in d))
+};
