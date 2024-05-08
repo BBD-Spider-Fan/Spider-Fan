@@ -10,6 +10,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: run
+        env:
+          PORT: ${{secrets.PORT}}
         run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
           . ~/.nvm/nvm.sh
