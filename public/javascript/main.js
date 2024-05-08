@@ -12,9 +12,10 @@ let contentElement = document.getElementById("content");
 
 if (isUserLoggedIn) {
     // Add the items to the nav bar.s
-    let navElement = document.getElementById("nav-items");
+    let navElement = document.getElementById("nav-comp");
     let navReport = document.createElement("a");
     navReport.text = "Report";
+    navReport.href = "#"
     navReport.addEventListener("click", () => {
         //TODO: make the page replace.
     });
@@ -22,6 +23,7 @@ if (isUserLoggedIn) {
 
     let navHistory = document.createElement("a");
     navHistory.text = "History";
+    navHistory.href = "#"
     navHistory.addEventListener("click", () => {
         //TODO: make the page replace.
     });

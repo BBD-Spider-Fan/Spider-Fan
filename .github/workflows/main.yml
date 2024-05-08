@@ -1,25 +1,3 @@
-#name: Deploy spider fan
-#
-#on:
-#  push:
-#
-#jobs:
-#  deploy_api:
-#    runs-on: self-hosted
-#    steps:
-#      - name: checkout
-#        uses: actions/checkout@v4
-#      - name: run
-#        env:
-#          PORT: ${{secrets.PORT}}
-#        run: |
-#          curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
-#          . ~/.nvm/nvm.sh
-#          npm install
-#          sudo pkill -f node
-#          sudo -E nohup $(which node) ./bin/www
-
-
 name: Deploy Frontend
 
 on:
