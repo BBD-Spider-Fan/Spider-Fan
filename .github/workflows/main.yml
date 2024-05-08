@@ -16,4 +16,4 @@ jobs:
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
           . ~/.nvm/nvm.sh
           npm install
-          sudo $(which node) ./bin/www
+          sudo -E $(which node) ./bin/www
