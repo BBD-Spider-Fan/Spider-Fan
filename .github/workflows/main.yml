@@ -13,5 +13,5 @@ jobs:
           . ~/.nvm/nvm.sh
           rm -r Spider-Fan
           git clone https://github.com/BBD-Spider-Fan/Spider-Fan.git
-          ls
+          cd Spider-Fan
           $(which node) ./bin/www
