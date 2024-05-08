@@ -13,5 +13,4 @@ jobs:
           . ~/.nvm/nvm.sh
           sudo rm -rf /Spider-fan
           git clone https://github.com/BBD-Spider-Fan/Spider-Fan.git
-#          cd Spider-fan
           sudo $(which node) ./bin/www
