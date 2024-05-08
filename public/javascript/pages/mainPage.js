@@ -1,4 +1,4 @@
-import {historyPage} from "./historyPage";
+import {historyPage} from "./historyPage.js";
 
 export const mainPage = contentElement => {
 
