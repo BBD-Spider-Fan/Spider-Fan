@@ -11,7 +11,7 @@ jobs:
         run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
           . ~/.nvm/nvm.sh
-          rm -rf /Spider-fan
+          sudo rm -rf /Spider-fan
           git clone https://github.com/BBD-Spider-Fan/Spider-Fan.git
           cd Spider-fan
           sudo $(which node) ./bin/www
