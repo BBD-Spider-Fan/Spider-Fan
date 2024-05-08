@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require("../utils/db");
 const crawl = require("../utils/crawl");
-const {getDomainById} = require("../utils/db");
+const {getAllCrawledDataForDomain} = require("../utils/db");
 const router = express.Router();
 
 /* GET the domain crawled data. */
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
     let userId = req.user_data.user_id;
     try {
-        res.json(await getDomainById(userId, domainId));
+        res.json(await getAllCrawledDataForDomain(userId, domainId));
     } catch (err) {
         console.error('Error executing query', err);
         res.status(500).json({error: 'Internal Server Error unable to get domain crawl data'});
