@@ -7,11 +7,12 @@ jobs:
   deploy_api:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v4
       - name: run
         run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
           . ~/.nvm/nvm.sh
-          rm -r Spider-Fan
-          git clone https://github.com/BBD-Spider-Fan/Spider-Fan.git
-          cd Spider-Fan
+#          rm -r Spider-Fan
+#          git clone https://github.com/BBD-Spider-Fan/Spider-Fan.git
+#          cd Spider-Fan
           $(which node) ./bin/www
