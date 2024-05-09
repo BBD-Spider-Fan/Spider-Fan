@@ -1,46 +1,46 @@
 header {
-  position: sticky;
-  height: 8vh;
-  padding-inline: 1rem;
+    position: sticky;
+    height: 8vh;
+    padding-inline: 1rem;
 
-  display: grid;
-  grid-template-columns: 1fr [content-start] minmax(auto, 60ch) [content-end] 1fr;
-  flex-direction: row;
-  align-items: center;
-
-  font-family: 'Patrick Hand';
-
-  & > h1 {
-    grid-column-start: 1;
-  }
-
-  & > nav {
-    justify-self: center;
-
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr [content-start] minmax(auto, 60ch) [content-end] 1fr;
     flex-direction: row;
-    flex-grow: 2;
-    gap: 2rem;
     align-items: center;
 
-    & > a {
-      font-size: 1.5rem;
-      color: white;
-      text-decoration: none;
+    font-family: 'Patrick Hand';
+
+    & > h1 {
+        grid-column-start: 1;
     }
-  }
+
+    & > nav {
+        justify-self: center;
+
+        display: flex;
+        flex-direction: row;
+        flex-grow: 2;
+        gap: 2rem;
+        align-items: center;
+
+        & > a {
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+    }
 }
 
 .logout-button {
-  font-size: 1em;
-  cursor: pointer;
-  border: none;
-  border-radius: 0.25rem;
-  padding-inline: 1rem;
-  padding-block: 0.5rem;
-  background-color: white;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.25rem;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    background-color: white;
 }
 
 .logout-button:hover {
-  background-color: rgba(74,100,120,255);
+    background-color: rgba(74, 100, 120, 255);
 }

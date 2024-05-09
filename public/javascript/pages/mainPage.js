@@ -1,4 +1,4 @@
-import { makeRequest, prioritize } from "../utils.js";
+import {makeRequest, prioritize} from "../utils.js";
 import {reportPage} from "./reportPage.js";
 
 export const mainPage = contentElement => {
@@ -47,13 +47,9 @@ export const mainPage = contentElement => {
         contentElement.appendChild(spinner);
 
         try {
-            urls = prioritize(await makeRequest('/domain/add', { domain_url: searchTerm }, 'POST')
-                .then(({ domain_id: id }) => {
-                    return makeRequest('/crawledData/crawl', { domain_id: id }, 'POST')
-                        .then(
-                            () => makeRequest('/crawledData', { domain_id: id }, 'GET')
-                        );
-                }));
+            urls = prioritize(await makeRequest('domain/add', {domain_url: searchTerm}, 'POST')
+                .then(({domain_id: id}) => makeRequest('crawledData/crawl', {domain_id: id}, 'POST')
+                    .then(() => makeRequest('crawledData', {domain_id: id}, 'GET'))));
         } catch (error) {
             for (const [index, displayValue] of initialDisplayValues.entries()) {
                 contentElement.children.item(index).style.display = displayValue;
@@ -62,7 +58,7 @@ export const mainPage = contentElement => {
             spinner.remove();
         }
 
-        reportPage(contentElement, { urls, domain: searchTerm });
+        reportPage(contentElement, {urls, domain: searchTerm});
     });
 
     section.appendChild(greeter);

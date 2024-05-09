@@ -19,12 +19,12 @@ export const makeRequest = async (endpoint, data = null, method = "GET") => {
 }
 
 export const prioritize = anchors => {
-  const total = anchors
-    .map(a => a.count)
-    .reduce((previous, current) => previous + current, 0);
+    const total = anchors
+        .map(a => a.count)
+        .reduce((previous, current) => previous + current, 0);
 
-  return anchors.map(a => ({
-    ...a,
-    priority: a.count / total,
-  }));
+    return anchors.map(a => ({
+        ...a,
+        priority: a.count / total,
+    }));
 }

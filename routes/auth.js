@@ -1,8 +1,5 @@
 const express = require('express');
-const pool = require("../utils/db");
-// const fetchData = require("../utils/utils");
 const {getOrCreateUser} = require("../utils/db");
-const authMiddleware = require("../middleware/oauthMiddleware");
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -14,10 +11,7 @@ router.get('/', async (req, res) => {
     const token = authHeader.split('Bearer ')[1];
 
     fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`)
-        .then(response => {
-            // if (!response.ok) res.json({error: `Unauthorized:`});
-            return response.json();
-        })
+        .then(response => response.json())
         .then(getOrCreateUser)
         .then(dataResponse => res.json(dataResponse))
         .catch(error => res.json({error: `Unauthorized: ${error}`}));

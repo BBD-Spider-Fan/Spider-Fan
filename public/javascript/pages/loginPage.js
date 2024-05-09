@@ -1,4 +1,4 @@
-import {loginUrl} from "../oauth_1.js";
+import {loginUrl} from "../oauth.js";
 
 export const loginPage = (contentElement) => {
     let mainSection = document.createElement("section");

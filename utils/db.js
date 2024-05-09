@@ -13,8 +13,7 @@ const pool = new Pool({
 
 
 const getOrCreateUser = async (tokenInfo) => {
-    if (tokenInfo.email === undefined || tokenInfo.sub === undefined)
-        throw new Error('Email and sub are needed');
+    if (tokenInfo.email === undefined || tokenInfo.sub === undefined) throw new Error('Email and sub are needed');
     const values = [tokenInfo.sub, tokenInfo.email];
     let sql = `
             SELECT * 
@@ -74,23 +73,17 @@ const makeDbCallOne = async (sql, data) => {
     return makeDbCall(sql, data).then(rows => rows[0]);
 }
 const makeCallToCrawl = async (id) => {
-const sql = `
+    const sql = `
                       SELECT url
                       FROM domain
                       WHERE domain_id = $1;
               `;
 
-    
-return makeDbCallOne(sql,[id])
+    return makeDbCallOne(sql, [id])
 
 }
 
 // export = pool;
 module.exports = {
-    pool,
-    getOrCreateUser,
-    getAllCrawledDataForDomain,
-    getAllDomainsForUser,
-    insertIntoDomain,
-    makeCallToCrawl,
+    pool, getOrCreateUser, getAllCrawledDataForDomain, getAllDomainsForUser, insertIntoDomain, makeCallToCrawl,
 };

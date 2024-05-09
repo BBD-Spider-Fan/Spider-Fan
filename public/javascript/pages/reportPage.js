@@ -1,4 +1,4 @@
-export const reportPage = async (contentElement, { urls, domain }) => {
+export const reportPage = async (contentElement, {urls, domain}) => {
     console.log('URLS', urls);
 
     contentElement.replaceChildren();
@@ -36,13 +36,13 @@ export const reportPage = async (contentElement, { urls, domain }) => {
     frequencyInput.setAttribute('type', 'text');
     // frequencyInput.setAttribute('value', 'never');
     frequencyInput.setAttribute('placeholder', 'Enter frequency');
-    frequencyInput.setAttribute('disabled', true);
+    frequencyInput.setAttribute('disabled', "true");
     countInput.setAttribute('name', 'count');
     countInput.setAttribute('type', 'number');
     countInput.setAttribute('min', '0');
     countInput.setAttribute('step', '1');
     countInput.setAttribute('placeholder', '0');
-    countInput.setAttribute('disabled', true);
+    countInput.setAttribute('disabled', "true");
     priorityInput.setAttribute('name', 'priority');
     priorityInput.setAttribute('type', 'number');
     priorityInput.setAttribute('min', '0');
@@ -56,27 +56,23 @@ export const reportPage = async (contentElement, { urls, domain }) => {
     image.setAttribute('src', '/assets/images/web-i.png');
 
     searchInput.addEventListener('input', e => {
-      const searchTerm = e.target.value.toLowerCase();
+        const searchTerm = e.target.value.toLowerCase();
 
-      const filteredUrls = urls
-        .filter(u => u.url.includes(searchTerm))
-        // .sort((a, b) => a.count - b.count);
+        const items = links.getElementsByTagName('li');
 
-      const items = links.getElementsByTagName('li');
+        for (const item of items) {
+            const text = item.textContent.toLowerCase();
 
-      for (const item of items) {
-        const text = item.textContent.toLowerCase();
-
-        if (text.includes(searchTerm)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
+            if (text.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
         }
-      }
     });
 
     dialogCloseButton.addEventListener('click', () => {
-      dialog.close();
+        dialog.close();
     });
 
     section.appendChild(searchForm);
@@ -100,51 +96,46 @@ export const reportPage = async (contentElement, { urls, domain }) => {
     contentElement.classList.add('report-page');
 
     for (const url of urls) {
-      const item = document.createElement('li');
-      const itemTitle = document.createElement('h3');
+        const item = document.createElement('li');
+        const itemTitle = document.createElement('h3');
 
-      item.addEventListener('click', () => {
-        const dialogTitle = dialog.querySelector('h3');
-        const frequencyInput = dialog.querySelector('input[name="frequency"]');
-        const countInput = dialog.querySelector('input[name="count"]');
-        // const priorityInput = dialog.querySelector('input[name="priority"]');
+        item.addEventListener('click', () => {
+            const dialogTitle = dialog.querySelector('h3');
+            const frequencyInput = dialog.querySelector('input[name="frequency"]');
+            const countInput = dialog.querySelector('input[name="count"]');
 
-        console.log(frequencyInput);
+            dialogTitle.innerText = url.url;
+            frequencyInput.value = 'never';
+            countInput.value = url.count;
+            priorityInput.value = url.priority;
 
-        dialogTitle.innerText = url.url;
-        frequencyInput.value = 'never';
-        countInput.value = url.count;
-        priorityInput.value = url.priority;
+            countInput.addEventListener('input', () => {
+                const minimum = priorityInput.getAttribute('min');
 
-        countInput.addEventListener('input', () => {
-          const minimum = priorityInput.getAttribute('min');
+                if (countInput.value < minimum) countInput.value = countInput.minimum;
+            });
 
-          if (countInput.value < minimum) countInput.value = countInput.minimum;
+            priorityInput.addEventListener('input', () => {
+                const maximum = priorityInput.getAttribute('max');
+                const minimum = priorityInput.getAttribute('min');
+
+                if (priorityInput.value > maximum) {
+                    priorityInput.value = priorityInput.maximum;
+                }
+
+                if (priorityInput.value < minimum) {
+                    priorityInput.value = priorityInput.minimum;
+                }
+            });
+
+            dialog.showModal();
         });
 
-        priorityInput.addEventListener('input', () => {
-          const maximum = priorityInput.getAttribute('max');
-          const minimum = priorityInput.getAttribute('min');
+        item.setAttribute('data-count', url.count);
+        item.setAttribute('data-priority', url.priority);
+        itemTitle.innerText = url.url;
 
-          if (priorityInput.value > maximum) {
-            priorityInput.value = priorityInput.maximum;
-          }
-
-          if (priorityInput.value < minimum) {
-            priorityInput.value = priorityInput.minimum;
-          }
-        });
-
-        dialog.showModal();
-      });
-
-      console.log(url);
-
-      item.setAttribute('data-count', url.count);
-      item.setAttribute('data-priority', url.priority);
-      itemTitle.innerText = url.url;
-
-      item.appendChild(itemTitle);
-      links.appendChild(item);
+        item.appendChild(itemTitle);
+        links.appendChild(item);
     }
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const crawl = require("../utils/crawl");
-const {getAllCrawledDataForDomain, pool, makeCallToCrawl } = require("../utils/db");
+const {getAllCrawledDataForDomain, pool, makeCallToCrawl} = require("../utils/db");
 const router = express.Router();
 
 /* GET the domain crawled data. */
@@ -25,15 +25,16 @@ router.post('/crawl', async (req, res) => {
     }
 
     try {
-
-      
- const baseURL = (await makeCallToCrawl(domainId)).url;
+        const baseURL = (await makeCallToCrawl(domainId)).url;
         let pages = await crawl.crawlPage(baseURL, baseURL, {});
 
 
         // Extract keys (urls) and values (counts) from inputData
         const urls = Object.keys(pages);
         const counts = Object.values(pages);
+
+        if (urls.length === 0)
+            return res.status(400).json({error: 'No data for page.'});
 
         // Construct placeholders for the URLs and counts
         const placeholders = urls.map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`).join(',');
