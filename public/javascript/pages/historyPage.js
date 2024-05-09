@@ -28,33 +28,47 @@ const populateData = async (domainContainer) => {
         .forEach(domain => list.appendChild(createCard(domain)));
 };
 
-const cardClick = async (domain_id) => {
+const cardClick = async (click, card, domain_id) => {
     // console.log(`Clicked on ${object.domain_id}`)
 
-    const existingPopup = document.querySelector(".popup")
+    card.removeEventListener("click", click);
+
+
+    const existingPopup = document.querySelector("dialog")
     if (existingPopup) {
+        existingPopup.close()
         existingPopup.remove()
     }
 
     let crawledData = await makeRequest("crawledData", {domain_id});
 
     const popup = document.createElement("dialog")
-    // popup.classList.add("popup")
 
     const closeButton = document.createElement("button")
     closeButton.classList.add("close-button");
     closeButton.textContent = "Close";
     closeButton.addEventListener("click", () => {
-        popup.close()
+        popup.close();
+        popup.remove();
+        card.addEventListener("click", click);
     });
 
     popup.addEventListener("click", (event) => {
         if (event.target === popup) {
             popup.close();
+            popup.remove();
+            card.addEventListener("click", click);
         }
     })
 
     popup.appendChild(closeButton);
+
+    if (crawledData.length === 0) {
+        const historyMessage = document.createElement("p")
+        historyMessage.classList.add("history-message")
+        historyMessage.textContent = "You have no crawled urls 	¯\\(o_o)/¯"
+        popup.appendChild(historyMessage)
+    }
 
 
     crawledData.forEach(cdi => populateCrawlData(cdi, popup))
@@ -97,7 +111,10 @@ function createCard(domain) {
     card.appendChild(url)
     card.appendChild(timeUpdated)
 
-    card.addEventListener("click", () => cardClick(domain.domain_id));
+    let click = () => {
+        cardClick(click, card, domain.domain_id)
+    };
+    card.addEventListener("click", click);
 
     return card;
 }

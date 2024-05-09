@@ -54,6 +54,11 @@ body {
     font-size: 4em;
 }
 
+.history-message {
+    color: black;
+    font-size: 1em;
+}
+
 dialog[open] {
     position: fixed;
     display: flex;
