@@ -13,6 +13,8 @@ const pool = new Pool({
 
 
 const getOrCreateUser = async (tokenInfo) => {
+    if (tokenInfo.email === undefined || tokenInfo.sub === undefined)
+        throw new Error('Email and sub are needed');
     const values = [tokenInfo.sub, tokenInfo.email];
     let sql = `
             SELECT * 
