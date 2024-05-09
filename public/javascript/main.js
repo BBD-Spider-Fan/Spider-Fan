@@ -33,7 +33,8 @@ if (isUserLoggedIn) {
     // TODO: main page
 
     let logoutButton = document.createElement("button");
-    logoutButton.text = "Logout";
+    logoutButton.classList.add("logout-button")
+    logoutButton.innerText = "Logout";
     logoutButton.addEventListener("click", logout);
     navElement.appendChild(logoutButton);
 
