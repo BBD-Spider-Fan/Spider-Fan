@@ -70,9 +70,10 @@ const cardClick = async (click, card, domain_id) => {
         historyMessage.textContent = "You have no crawled urls 	¯\\(o_o)/¯"
         popup.appendChild(historyMessage)
     }
+    else {
+        crawledData.forEach(cdi => populateCrawlData(cdi, popup))
+    }
 
-
-    crawledData.forEach(cdi => populateCrawlData(cdi, popup))
     document.body.appendChild(popup)
 
     popup.showModal()
