@@ -34,12 +34,15 @@ const getAllDomainsForUser = async (userId) => {
 
 
 const getAllCrawledDataForDomain = async (userId, domainId) => {
-    const values = [userId, domainId];
+    const values = [domainId, userId];
     const selectQuery = `
                     SELECT crawled_data.url, crawled_data.count
                     FROM crawled_data
                              JOIN domain ON domain.domain_id = crawled_data.domain_id
-                    WHERE crawled_data.domain_id = $1;
+                    WHERE crawled_data.domain_id = $1 
+                    AND user_id = $2
+                    ORDER BY crawled_data.count DESC
+                    ;
     `;
     return makeDbCall(selectQuery, values);
 }

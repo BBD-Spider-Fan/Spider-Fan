@@ -2,6 +2,7 @@ import {makeRequest} from "../utils.js";
 
 export async function historyPage(contentElement) {
     // Remove other content
+    contentElement.replaceChildren();
     // contentElement.children.clear();
     let domainContainer = document.createElement("div");
     domainContainer.classList.add("domain-container");
@@ -17,12 +18,48 @@ const populateData = async (domainContainer) => {
     domainContainer.appendChild(list);
     const domains = await makeRequest("domain");
     domains
-        .map(domain => createCard(domain))
-        .forEach(list.appendChild);
+        .forEach(domain => list.appendChild(createCard(domain)));
 };
 
-const cardClick = async (domain) => {
-    await makeRequest("crawledData")
+const cardClick = async (domain_id) => {
+    const mainContainer = document.getElementById("main-container")
+    // console.log(`Clicked on ${object.domain_id}`)
+
+    const existingPopup = document.querySelector(".popup")
+    if (existingPopup) {
+        existingPopup.remove()
+    }
+
+    let crawledData = await makeRequest("crawledData", {domain_id});
+
+    const popup = document.createElement("div")
+    popup.classList.add("popup")
+
+    const closeButton = document.createElement("button")
+    closeButton.classList.add("close-button");
+    closeButton.textContent = "Close";
+    closeButton.addEventListener("click", () => {
+        popup.remove()
+    });
+
+    popup.appendChild(closeButton);
+
+
+    crawledData.forEach(cdi => populateCrawlData(cdi, popup))
+    document.body.appendChild(popup)
+
+};
+
+let populateCrawlData = (scrapedURL, popup) => {
+    const scrapedURLText = document.createElement("p")
+    scrapedURLText.textContent = `URL: ${scrapedURL.url}`
+
+    const scrapedURLCount = document.createElement("p")
+    scrapedURLCount.textContent = `count: ${scrapedURL.count}`
+    scrapedURLCount.style.marginBottom = "0.5em"
+
+    popup.appendChild(scrapedURLText)
+    popup.appendChild(scrapedURLCount)
 };
 
 function createCard(domain) {
@@ -46,7 +83,7 @@ function createCard(domain) {
     card.appendChild(url)
     card.appendChild(timeUpdated)
 
-    card.addEventListener("click", () => cardClick(domain));
+    card.addEventListener("click", () => cardClick(domain.domain_id));
 
     return card;
 }
