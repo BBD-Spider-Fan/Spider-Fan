@@ -1,22 +1,23 @@
 import {makeRequest} from "../utils.js";
 
 export async function historyPage(contentElement) {
+    const domains = await makeRequest("domain");
     // Remove other content
     contentElement.replaceChildren();
     // contentElement.children.clear();
     let domainContainer = document.createElement("div");
     domainContainer.classList.add("domain-container");
     // Populate list
-    await populateData(domainContainer);
+    await populateData(domains, domainContainer);
 
     contentElement.appendChild(domainContainer);
 }
 
 
-const populateData = async (domainContainer) => {
+const populateData = async (domains, domainContainer) => {
     const list = document.createElement("ul")
     domainContainer.appendChild(list);
-    const domains = await makeRequest("domain");
+
     if (domains.length === 0) {
         const userMessage = document.createElement("p")
         userMessage.classList.add("user-message")
