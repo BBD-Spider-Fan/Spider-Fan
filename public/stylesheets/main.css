@@ -6,7 +6,7 @@ body {
   min-height: 84vh;
 
   display: grid;
-  grid-template-columns: 1fr [content-start] 60ch [content-end] 1fr;
+  grid-template-columns: 1fr [content-start] minmax(auto, 60ch) [content-end] 1fr;
 
   & > * {
     grid-column-start: content-start;

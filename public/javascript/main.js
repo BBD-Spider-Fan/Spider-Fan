@@ -5,11 +5,16 @@ import {historyPage} from "./pages/historyPage.js";
 
 authUrlRipper();
 
-// Check the login status
-let isUserLoggedIn = await isLoggedIn();
-console.log(isUserLoggedIn);
-
 let contentElement = document.getElementById("content");
+
+// Check the login status
+const spinner = document.createElement('spider-spinner');
+
+contentElement.appendChild(spinner);
+
+let isUserLoggedIn = await isLoggedIn();
+
+spinner.remove();
 
 if (isUserLoggedIn) {
     // Add the items to the nav bar.s

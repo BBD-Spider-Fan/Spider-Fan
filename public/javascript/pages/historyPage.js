@@ -1,9 +1,15 @@
 import {makeRequest} from "../utils.js";
 
 export async function historyPage(contentElement) {
-    const domains = await makeRequest("domain");
-    // Remove other content
     contentElement.replaceChildren();
+
+    const spinner = document.createElement('spider-spinner');
+
+    contentElement.appendChild(spinner);
+
+    const domains = await makeRequest("domain")
+        .finally(() => spinner.remove());
+
     // contentElement.children.clear();
     let domainContainer = document.createElement("div");
     domainContainer.classList.add("domain-container");
@@ -32,7 +38,9 @@ const populateData = async (domains, domainContainer) => {
 };
 
 const cardClick = async (click, card, domain_id) => {
-    // console.log(`Clicked on ${object.domain_id}`)
+    const initialDisplayValues = [];
+    const spinner = document.createElement('spider-spinner');
+    const contentElement = document.querySelector('#content');
 
     card.removeEventListener("click", click);
 
@@ -43,7 +51,20 @@ const cardClick = async (click, card, domain_id) => {
         existingPopup.remove()
     }
 
-    let crawledData = await makeRequest("crawledData", {domain_id});
+    for (let i = 0; i < contentElement.children.length; i += 1) {
+        initialDisplayValues.push(contentElement.children.item(i).style.display);
+        contentElement.children.item(i).style.display = 'none';
+    }
+
+    contentElement.appendChild(spinner);
+
+    let crawledData = await makeRequest("crawledData", {domain_id})
+        .finally(() => {
+            spinner.remove()
+            for (const [index, displayValue] of  initialDisplayValues.entries()) {
+                contentElement.children.item(index).style.display = initialDisplayValues[index];
+            }
+        });
 
     const popup = document.createElement("dialog")
 

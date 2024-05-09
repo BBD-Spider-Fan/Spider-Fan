@@ -11,6 +11,7 @@ export const mainPage = contentElement => {
     const searchInput = document.createElement('input');
     const searchButton = document.createElement('button');
     const image = document.createElement('img');
+    const spinner = document.createElement('spider-spinner');
 
     greeter.innerText = 'Your SEO companion!';
     searchLabel.setAttribute('for', 'search');
@@ -25,16 +26,41 @@ export const mainPage = contentElement => {
 
     searchButton.addEventListener('click', async e => {
         e.preventDefault();
-        const searchTerm = searchInput.value;
 
-        const urls = prioritize(await makeRequest('/domain/add', { domain_url: searchTerm }, 'POST')
-            .then(({ domain_id: id }) => {
-                console.log('ID', id);
-                return makeRequest('/crawledData/crawl', { domain_id: id }, 'POST')
-                    .then(
-                        () => makeRequest('/crawledData', { domain_id: id }, 'GET')
-                    );
-            }));
+        try {
+            new URL(searchInput.value);
+        } catch (error) {
+            alert('Invalid URL');
+            return;
+        }
+
+        const searchTerm = searchInput.value;
+        const initialDisplayValues = [];
+        let urls = [];
+
+        for (let i = 0; i < contentElement.children.length; i += 1) {
+            const child = contentElement.children.item(i);
+            initialDisplayValues.push(child.style.display);
+            child.style.display = 'none';
+        }
+
+        contentElement.appendChild(spinner);
+
+        try {
+            urls = prioritize(await makeRequest('/domain/add', { domain_url: searchTerm }, 'POST')
+                .then(({ domain_id: id }) => {
+                    return makeRequest('/crawledData/crawl', { domain_id: id }, 'POST')
+                        .then(
+                            () => makeRequest('/crawledData', { domain_id: id }, 'GET')
+                        );
+                }));
+        } catch (error) {
+            for (const [index, displayValue] of initialDisplayValues.entries()) {
+                contentElement.children.item(index).style.display = displayValue;
+            }
+        } finally {
+            spinner.remove();
+        }
 
         reportPage(contentElement, { urls, domain: searchTerm });
     });
