@@ -17,12 +17,18 @@ const populateData = async (domainContainer) => {
     const list = document.createElement("ul")
     domainContainer.appendChild(list);
     const domains = await makeRequest("domain");
+    if (domains.length === 0) {
+        const userMessage = document.createElement("p")
+        userMessage.classList.add("user-message")
+        userMessage.textContent = "You have no history 	¯\\(o_o)/¯"
+        domainContainer.appendChild(userMessage)
+        return
+    }
     domains
         .forEach(domain => list.appendChild(createCard(domain)));
 };
 
 const cardClick = async (domain_id) => {
-    const mainContainer = document.getElementById("main-container")
     // console.log(`Clicked on ${object.domain_id}`)
 
     const existingPopup = document.querySelector(".popup")
@@ -32,21 +38,29 @@ const cardClick = async (domain_id) => {
 
     let crawledData = await makeRequest("crawledData", {domain_id});
 
-    const popup = document.createElement("div")
-    popup.classList.add("popup")
+    const popup = document.createElement("dialog")
+    // popup.classList.add("popup")
 
     const closeButton = document.createElement("button")
     closeButton.classList.add("close-button");
     closeButton.textContent = "Close";
     closeButton.addEventListener("click", () => {
-        popup.remove()
+        popup.close()
     });
+
+    popup.addEventListener("click", (event) => {
+        if (event.target === popup) {
+            popup.close();
+        }
+    })
 
     popup.appendChild(closeButton);
 
 
     crawledData.forEach(cdi => populateCrawlData(cdi, popup))
     document.body.appendChild(popup)
+
+    popup.showModal()
 
 };
 
