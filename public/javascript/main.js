@@ -14,17 +14,18 @@ let contentElement = document.getElementById("content");
 if (isUserLoggedIn) {
     // Add the items to the nav bar.s
     let navElement = document.getElementById("nav-comp");
-    let navReport = document.createElement("a");
-    navReport.text = "Report";
-    navReport.href = "#"
-    navReport.addEventListener("click", () => {
-        //TODO: make the page replace.
+    let navHome = document.createElement("a");
+    navHome.text = "Home";
+    navHome.href = ""
+    navHome.addEventListener("click", async e => {
+        e.preventDefault();
+        return mainPage(contentElement);
     });
-    navElement.appendChild(navReport);
+    navElement.appendChild(navHome);
 
     let navHistory = document.createElement("a");
     navHistory.text = "History";
-    navHistory.href = "#"
+    navHistory.href = ""
     navHistory.addEventListener("click", async (event) => {
         event.preventDefault();
         return historyPage(contentElement);

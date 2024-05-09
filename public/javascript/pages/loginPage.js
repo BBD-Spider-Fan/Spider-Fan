@@ -18,5 +18,8 @@ export const loginPage = (contentElement) => {
     let image = document.createElement("img");
     // image.src =
     contentElement.appendChild(image)
+    contentElement.className = '';
+    contentElement.classList.add('auth-page');
+
     return mainSection;
 };

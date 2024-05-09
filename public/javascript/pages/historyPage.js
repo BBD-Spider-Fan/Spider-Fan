@@ -11,6 +11,8 @@ export async function historyPage(contentElement) {
     await populateData(domains, domainContainer);
 
     contentElement.appendChild(domainContainer);
+    contentElement.className = '';
+    contentElement.classList.add('history-page');
 }
 
 

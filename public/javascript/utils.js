@@ -17,3 +17,14 @@ export const makeRequestRaw = async (endpoint, data = null, method = "GET") => {
 export const makeRequest = async (endpoint, data = null, method = "GET") => {
     return makeRequestRaw(endpoint, data, method).then(d => d.json())
 }
+
+export const prioritize = anchors => {
+  const total = anchors
+    .map(a => a.count)
+    .reduce((previous, current) => previous + current, 0);
+
+  return anchors.map(a => ({
+    ...a,
+    priority: a.count / total,
+  }));
+}

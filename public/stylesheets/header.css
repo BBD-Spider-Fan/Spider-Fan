@@ -15,7 +15,7 @@ header {
   }
 
   & > nav {
-    justify-self: flex-end;
+    justify-self: center;
 
     display: flex;
     flex-direction: row;

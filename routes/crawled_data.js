@@ -1,7 +1,6 @@
 const express = require('express');
-const pool = require("../utils/db");
 const crawl = require("../utils/crawl");
-const {getAllCrawledDataForDomain} = require("../utils/db");
+const {getAllCrawledDataForDomain, pool, makeCallToCrawl } = require("../utils/db");
 const router = express.Router();
 
 /* GET the domain crawled data. */
@@ -26,14 +25,9 @@ router.post('/crawl', async (req, res) => {
     }
 
     try {
-        const result = await pool.query(`
-                      SELECT url
-                      FROM domain
-                      WHERE domain_id = $1;
-              `, [domainId]);
 
-
-        let baseURL = result.rows[0].url;
+      
+ const baseURL = (await makeCallToCrawl(domainId)).url;
         let pages = await crawl.crawlPage(baseURL, baseURL, {});
 
 

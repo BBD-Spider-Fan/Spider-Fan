@@ -73,12 +73,24 @@ const makeDbCall = async (sql, data) => {
 const makeDbCallOne = async (sql, data) => {
     return makeDbCall(sql, data).then(rows => rows[0]);
 }
+const makeCallToCrawl = async (id) => {
+const sql = `
+                      SELECT url
+                      FROM domain
+                      WHERE domain_id = $1;
+              `;
 
+    
+return makeDbCallOne(sql,[id])
+
+}
 
 // export = pool;
 module.exports = {
+    pool,
     getOrCreateUser,
     getAllCrawledDataForDomain,
     getAllDomainsForUser,
-    insertIntoDomain
+    insertIntoDomain,
+    makeCallToCrawl,
 };
