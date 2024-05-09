@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --env-file=.env ./bin/www"
+    "start": "node --env-file=.env ./bin/www",
+    "startProd": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.16.1",
+    "express": "^4.19.2",
     "pg": "^8.11.5"
   },
   "devDependencies": {
