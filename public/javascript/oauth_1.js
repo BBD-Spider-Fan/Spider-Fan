@@ -30,3 +30,26 @@ export const isLoggedIn = async () => {
     // Make call to ensure that the user is logged in.
     return await makeRequest("auth").then(d => !("error" in d))
 };
+
+export const logout = () => {
+    const accessToken = localStorage.getItem('idToken');
+
+    if (!accessToken) {
+        console.log('Access token not found in local storage.');
+        return;
+    }
+
+    fetch('https://oauth2.googleapis.com/revoke?token=' + accessToken, {
+        method: 'POST', headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        }
+    })
+        .then(() => {
+            localStorage.removeItem('idToken');
+            location.reload();
+        })
+        .catch((error) => {
+            console.log('Error revoking token:', error);
+        });
+}
+

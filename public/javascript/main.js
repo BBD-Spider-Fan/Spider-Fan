@@ -1,6 +1,6 @@
 import {mainPage} from "./pages/mainPage.js";
 import {loginPage} from "./pages/loginPage.js";
-import {authUrlRipper, isLoggedIn} from "./oauth_1.js";
+import {authUrlRipper, isLoggedIn, logout} from "./oauth_1.js";
 import {historyPage} from "./pages/historyPage.js";
 
 authUrlRipper();
@@ -25,9 +25,18 @@ if (isUserLoggedIn) {
     let navHistory = document.createElement("a");
     navHistory.text = "History";
     navHistory.href = "#"
-    navHistory.addEventListener("click", async () => historyPage(contentElement));
+    navHistory.addEventListener("click", async (event) => {
+        event.preventDefault();
+        return historyPage(contentElement);
+    });
     navElement.appendChild(navHistory);
     // TODO: main page
+
+    let logoutButton = document.createElement("button");
+    logoutButton.text = "Logout";
+    logoutButton.addEventListener("click", logout);
+    navElement.appendChild(logoutButton);
+
     mainPage(contentElement);
 } else {
     loginPage(contentElement);
