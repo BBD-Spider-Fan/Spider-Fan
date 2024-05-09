@@ -29,4 +29,14 @@ header {
       text-decoration: none;
     }
   }
+
+  .logout-button {
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  .logout-button:hover {
+    background-color: azure;
+    background-color: rgba(74,100,120,255);
+  }
 }
