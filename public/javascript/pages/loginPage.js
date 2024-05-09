@@ -12,12 +12,18 @@ export const loginPage = (contentElement) => {
     let aTag = document.createElement("a");
     aTag.text = "Continue with Google";
     aTag.href = loginUrl();
+    aTag.classList.add('login-button');
     mainSection.appendChild(aTag)
     contentElement.appendChild(mainSection)
 
-    let image = document.createElement("img");
-    // image.src =
-    contentElement.appendChild(image)
+    let spiderImage = document.createElement("img");
+    let webImage = document.createElement("img");
+    spiderImage.setAttribute('src', '/assets/images/spider-i.png');
+    webImage.setAttribute('src', '/assets/images/web-i.png');
+    spiderImage.setAttribute('id', 'spider-i');
+    webImage.setAttribute('id', 'web-i');
+    contentElement.appendChild(spiderImage);
+    contentElement.appendChild(webImage);
     contentElement.className = '';
     contentElement.classList.add('auth-page');
 

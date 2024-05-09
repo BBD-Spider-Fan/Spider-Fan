@@ -58,6 +58,10 @@ body {
       border: none;
       border-radius: 1rem;
       color: white;
+
+      &:hover {
+        background-color: #888888;
+      }
     }
   }
 

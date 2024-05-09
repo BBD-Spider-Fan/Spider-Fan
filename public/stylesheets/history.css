@@ -6,7 +6,7 @@
         min-height: 100vh;
     }
 
-    #domain-container {
+    .domain-container {
         max-height: 100vh;
         overflow-y: auto;
         padding: 1em;
