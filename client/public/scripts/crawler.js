@@ -1,3 +1,14 @@
+export const prioritize = pages => {
+  const total = pages
+    .map(p => p.count)
+    .reduce((previous, current) => previous + current, 0);
+
+  return pages.map(p => ({
+    ...p,
+    priority: p.count / total,
+  }));
+}
+
 export const crawl = async (base, current, pages) => {
   if (base.hostname !== current.hostname) return pages;
 

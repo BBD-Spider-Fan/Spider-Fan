@@ -37,38 +37,25 @@
         </button>
       </form>
 
-      <ul id="links">
-        <!-- <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li>
-        <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li>
-        <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li>
-        <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li>
-        <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li>
-        <li>
-          <h3>Link to <a href="#">boot.dev</a></h3>
-        </li> -->
-      </ul>
+      <ul id="links"></ul>
     </section>
     <dialog>
-      <h3>Link to <a href="#">boot.dev</a></h3>
+      <h3></h3>
       <form>
         <label for="frequency">Frequency</label>
-        <input type="text" >
+        <input type="text" name="frequency" value="never" disabled>
+        <label for="count">Count</label>
+        <input type="number" min="0" name="count" placeholder="0" >
+        <label for="priority">Priority</label>
+        <input type="number" min="0" max="1" step="0.1" name="priority" placeholder="0.00">
       </form>
       <section>
-        <button>Cancel</button>
-        <button>Save</button>
+        <button class="secondary-button">Cancel</button>
+        <button class="primary-button">Save</button>
       </section>
     </dialog>
+
+    <img id="web-i" src="/assets/images/web-i.png" alt="spider">
   </main>
   <footer>
     Copyright &copy; 2024 Spiderfan. All rights reserved.
