@@ -51,7 +51,7 @@ const createCard = domain => {
     // Cool that this was not documented anywhere lesson in all this is that dates are HARD....
     // Seems like this is only on local. So basically it is good would hate to manage this in real production.
     // Dev spend all their time fixing this locally only for it to break online and don't get me started on deploying this in multiple locations ;)
-    timeUpdated.textContent = `Last Updated UCT: ${saDateTime}`;
+    timeUpdated.textContent = `Last Updated: ${saDateTime}`;
     card.appendChild(url);
     card.appendChild(timeUpdated);
 
