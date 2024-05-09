@@ -10,7 +10,7 @@ class SpinnerElement extends HTMLElement {
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100vh;
+          height: 84vh;
         }
         #spinner {
           border: 4px solid rgba(0, 0, 0, 0.1);

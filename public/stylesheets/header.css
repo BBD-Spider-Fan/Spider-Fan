@@ -8,7 +8,7 @@ header {
     flex-direction: row;
     align-items: center;
 
-    font-family: 'Patrick Hand';
+    font-family: 'Patrick Hand', serif;
 
     & > h1 {
         grid-column-start: 1;

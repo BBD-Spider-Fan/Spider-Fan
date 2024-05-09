@@ -11,7 +11,7 @@ export async function historyPage(contentElement) {
         .finally(() => spinner.remove());
 
     // contentElement.children.clear();
-    let domainContainer = document.createElement("div");
+    let domainContainer = document.createElement("section");
     domainContainer.classList.add("domain-container");
     // Populate list
     await populateData(domains, domainContainer);
@@ -49,6 +49,8 @@ const createCard = domain => {
     // Somehow our date is seen as ZA even though it should not really be thus node pg stuffs it up on retrieval.
     // If there was more time would look at what happens if db was created in different areas how this would affect Node PG.
     // Cool that this was not documented anywhere lesson in all this is that dates are HARD....
+    // Seems like this is only on local. So basically it is good would hate to manage this in real production.
+    // Dev spend all their time fixing this locally only for it to break online and don't get me started on deploying this in multiple locations ;)
     timeUpdated.textContent = `Last Updated UCT: ${saDateTime}`;
     card.appendChild(url);
     card.appendChild(timeUpdated);
