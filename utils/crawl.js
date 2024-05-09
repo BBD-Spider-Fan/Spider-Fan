@@ -110,8 +110,5 @@ const main = async () => {
 */
 
 module.exports = {
-    normalizeURL,
-    getURLsFromHTML,
-    crawlPage,
-    sortPages
+    normalizeURL, getURLsFromHTML, crawlPage, sortPages
 }

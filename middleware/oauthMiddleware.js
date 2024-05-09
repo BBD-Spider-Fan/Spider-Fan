@@ -1,4 +1,3 @@
-const {fetchData} = require("../utils/utils");
 const {getOrCreateUser} = require("../utils/db");
 const verifyToken = async (req, res, next) => {
 
@@ -7,13 +6,17 @@ const verifyToken = async (req, res, next) => {
         return res.status(401).json({error: 'Unauthorized: No ID Token found'});
     }
     const token = authHeader.split('Bearer ')[1];
-    fetchData(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`)
+    fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`)
+        .then(response => {
+            if (!response.ok) res.json({error: `Unauthorized:`});
+            return response.json();
+        })
         .then(getOrCreateUser)
         .then(dataResponse => {
             req.user_data = dataResponse;
             next();
         })
-        .catch(error => res.status(401).json({error: `Unauthorized: ${error}`}));
+        .catch(error => res.json({error: `Unauthorized: ${error}`}));
 }
 
 module.exports = verifyToken;
